@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	var DOMAIN = "http://localhost/inv_project/public_html";
 
-	//Mange Category
+	//Manage Category
 	manageCategory(1);
 	function manageCategory(pn){
 		$.ajax({
@@ -184,7 +184,9 @@ $(document).ready(function(){
 
 	//---------------------Products-----------------
 	manageProduct(1);
+	
 	function manageProduct(pn){
+		
 		$.ajax({
 			url : DOMAIN+"/includes/process.php",
 			method : "POST",

@@ -44,7 +44,7 @@ if (isset($_POST["manageCategory"])) {
 	$m = new Manage();
 	$result = $m->manageRecordWithPagination("categories",$_POST["pageno"]);
 	$rows = $result["rows"];
-	
+	$pagination = $result["pagination"];
 	if (count($rows) > 0) {
 		$n = (($_POST["pageno"] - 1) * 5)+1;
 		foreach ($rows as $row) {
@@ -63,7 +63,7 @@ if (isset($_POST["manageCategory"])) {
 			$n++;
 		}
 		?>
-			<tr><td colspan="5"></td></tr>
+			<tr><td colspan="5"><?php echo $pagination; ?></td></tr>
 		<?php
 		exit();
 	}
@@ -118,7 +118,7 @@ if (isset($_POST["manageBrand"])) {
 	$m = new Manage();
 	$result = $m->manageRecordWithPagination("brands",$_POST["pageno"]);
 	$rows = $result["rows"];
-	
+	$pagination = $result["pagination"];
 	if (count($rows) > 0) {
 		$n = (($_POST["pageno"] - 1) * 5)+1;
 		foreach ($rows as $row) {
@@ -136,7 +136,7 @@ if (isset($_POST["manageBrand"])) {
 			$n++;
 		}
 		?>
-			<tr><td colspan="5"></td></tr>
+			<tr><td colspan="5"><?php echo $pagination; ?></td></tr>
 		<?php
 		exit();
 	}
@@ -169,11 +169,11 @@ if (isset($_POST["update_brand"])) {
 
 //-----------------------------------------Products-----------------------------------------
 //Add Product
-if (isset($_POST["added_date"]) AND isset($_POST["product_name"])) {
+if (isset($_POST["added_date"]) AND isset($_POST["update_product"])) {
 	$obj = new DBOperation();
 	$result = $obj->addProduct($_POST["select_cat"],
 							$_POST["select_brand"],
-							$_POST["product_name"],
+							$_POST["update_product"],
 							$_POST["product_price"],
 							$_POST["product_qty"],
 							$_POST["added_date"]);
@@ -186,7 +186,7 @@ if (isset($_POST["manageProduct"])) {
 	$m = new Manage();
 	$result = $m->manageRecordWithPagination("products",$_POST["pageno"]);
 	$rows = $result["rows"];
-	
+	$pagination = $result["pagination"];
 	if (count($rows) > 0) {
 		$n = (($_POST["pageno"] - 1) * 5)+1;
 		foreach ($rows as $row) {
@@ -201,15 +201,16 @@ if (isset($_POST["manageProduct"])) {
 			        <td><?php echo $row["added_date"]; ?></td>
 			        <td><a href="#" class="btn btn-success btn-sm">Active</a></td>
 			        <td>
+						<a href="#" bid="<?php echo $row['pid']; ?>" class="btn btn-success btn-sm">Barter</a>
+						<a href="#" eid="<?php echo $row['pid']; ?>" data-toggle="modal" data-target="#form_products" class="btn btn-info btn-sm edit_product">Edit</a>
 			        	<a href="#" did="<?php echo $row['pid']; ?>" class="btn btn-danger btn-sm del_product">Delete</a>
-			        	<a href="#" eid="<?php echo $row['pid']; ?>" data-toggle="modal" data-target="#form_products" class="btn btn-info btn-sm edit_product">Edit</a>
 			        </td>
 			      </tr>
 			<?php
 			$n++;
 		}
 		?>
-			<tr><td colspan="5"></td></tr>
+			<tr><td colspan="5"><?php echo $pagination; ?></td></tr>
 		<?php
 		exit();
 	}

@@ -26,6 +26,15 @@ if (!isset($_SESSION["userid"])) {
 		<a href="#" data-toggle="modal" data-target="#form_products" class="btn btn-primary">Add Product</a>
 		<a href="#" data-toggle="modal" data-target="#form_category" class="btn btn-primary">Add Category</a>
 		<a href="#" data-toggle="modal" data-target="#form_brand" class="btn btn-primary">Add Brand</a>
+		<?php
+			if ($_SESSION["user_type"] === 'Admin') {
+				?>
+					<a href="manage_product.php" class="btn btn-primary">Manage Product</a>
+					<a href="manage_categories.php" class="btn btn-primary">Manage Category</a>
+					<a href="manage_brand.php" class="btn btn-primary">Manage Brand</a>
+				<?php
+			}
+		?>
 	</div>
 	
 	<!-- Products -->

@@ -74,8 +74,8 @@ class DBOperation
 	}
 }
 
-//$opr = new DBOperation();
-//echo $opr->addCategory(1,"Mobiles");
-//echo "<pre>";
-//print_r($opr->getAllRecord("categories"));
+// $opr = new DBOperation();
+// echo $opr->addProduct(5,17,"Iphone 10", 100000.0, 999, "2020-01-06", 1);
+// echo "<pre>";
+// print_r($opr->getAllRecord("categories"));
 ?>
