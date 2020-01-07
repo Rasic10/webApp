@@ -245,6 +245,9 @@ if (isset($_POST["update_product"])) {
 	echo $result;
 }
 
+//Search Product
+
+
 //-------------------------Order Processing--------------
 
 if (isset($_POST["getNewOrderItem"])) {
@@ -272,6 +275,7 @@ if (isset($_POST["getNewOrderItem"])) {
 	<?php
 	exit();
 }
+
 
 
 //Get price and qty of one item

@@ -61,21 +61,6 @@ $(document).ready(function(){
 		})
 	}
 
-	//Fetch Brand
-	fetch_brand();
-	function fetch_brand(){
-		$.ajax({
-			url : DOMAIN+"/includes/process.php",
-			method : "POST",
-			data : {getBrand:1},
-			success : function(data){
-				var choose = "<option value=''>Choose Brand</option>";
-				$("#select_brand").html(choose+data);
-			}
-		})
-	}
-
-
 	//Update Category
 	$("body").delegate(".edit_cat","click",function(){
 		var eid = $(this).attr("eid");
@@ -109,7 +94,6 @@ $(document).ready(function(){
 		}
 	})
 
-
 	//----------Brand-------------
 	manageBrand(1);
 	function manageBrand(pn){
@@ -122,7 +106,7 @@ $(document).ready(function(){
 			}
 		})
 	}
-
+	
 	$("body").delegate(".page-link","click",function(){
 		var pn = $(this).attr("pn");
 		manageBrand(pn);
@@ -147,6 +131,20 @@ $(document).ready(function(){
 			})
 		}
 	})
+
+	//Fetch Brand
+	fetch_brand();
+	function fetch_brand(){
+		$.ajax({
+			url : DOMAIN+"/includes/process.php",
+			method : "POST",
+			data : {getBrand:1},
+			success : function(data){
+				var choose = "<option value=''>Choose Brand</option>";
+				$("#select_brand").html(choose+data);
+			}
+		})
+	}
 
 	//Update Brand
 	$("body").delegate(".edit_brand","click",function(){
@@ -186,7 +184,6 @@ $(document).ready(function(){
 	manageProduct(1);
 	
 	function manageProduct(pn){
-		
 		$.ajax({
 			url : DOMAIN+"/includes/process.php",
 			method : "POST",
@@ -260,6 +257,24 @@ $(document).ready(function(){
 			})
 	})
 
-
+	//Search product
+	$("#search_product").keyup(function(){
+		var txt = $(this).val();
+		//var pn = $(this).attr("pn");
+		if (txt != '') {
+			$("#get_product").html('');
+			$.ajax({
+				url : DOMAIN+"/includes/search.php",
+				method : "POST",
+				data : {search:txt,pageno:1},
+				dataType: "text",
+				success : function(data){
+					$("#get_product").html(data);		
+				}
+			})
+		} else {
+			manageProduct(1);
+		}
+	});
 	
 })

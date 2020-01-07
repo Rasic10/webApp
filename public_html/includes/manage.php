@@ -14,14 +14,14 @@ class Manage
 		$this->con = $db->connect();
 	}
 
-	public function manageSearch($table,$pno){
-		$a = $this->pagination($this->con,$table,$pno,4);
+	public function manageSearch($table,$pno,$txt){
+		$a = $this->paginationForSearch($this->con,$table,$pno,4,$txt);
 		if ($table == "categories") {
 			$sql = "SELECT p.cid,p.category_name as category, c.category_name as parent, p.status FROM categories p LEFT JOIN categories c ON p.parent_cat=c.cid ".$a["limit"];
 		}else if($table == "products"){
-			$sql = "SELECT p.pid,p.product_name,c.category_name,b.brand_name,p.product_price,p.product_stock,p.added_date,p.p_status FROM products p,brands b,categories c WHERE p.bid = b.bid AND p.cid = c.cid ".$a["limit"];
+			$sql = "SELECT p.pid,p.product_name,c.category_name,b.brand_name,p.product_price,p.product_stock,p.added_date,p.p_status FROM products p,brands b,categories c WHERE p.bid = b.bid AND p.cid = c.cid AND p.product_name LIKE '%".$txt."%'".$a["limit"];
 		}else{
-			$sql = "SELECT * FROM ".$table;
+			$sql = "SELECT * FROM ".$table." ".$a["limit"];
 		}
 		$result = $this->con->query($sql) or die($this->con->error);
 		$rows = array();
@@ -53,9 +53,51 @@ class Manage
 		return ["rows"=>$rows,"pagination"=>$a["pagination"]];
 
 	}
-
+	
 	private function pagination($con,$table,$pno,$n){
 		$query = $con->query("SELECT COUNT(*) r FROM ".$table);
+		$row = mysqli_fetch_assoc($query);
+		//$totalRecords = 100000;
+		$pageno = $pno;
+		$numberOfRecordsPerPage = $n;
+
+		$last = ceil($row["r"]/$numberOfRecordsPerPage);
+
+		$pagination = "<ul class='pagination'>";
+
+		if ($last != 1) {
+			if ($pageno > 1) {
+				$previous = "";
+				$previous = $pageno - 1;
+				$pagination .= "<li class='page-item'><a class='page-link' pn='".$previous."' href='#' style='color:#333;'> Previous </a></li></li>";
+			}
+			for($i=$pageno - 5;$i< $pageno ;$i++){
+				if ($i > 0) {
+					$pagination .= "<li class='page-item'><a class='page-link' pn='".$i."' href='#'> ".$i." </a></li>";
+				}
+				
+			}
+			$pagination .= "<li class='page-item'><a class='page-link' pn='".$pageno."' href='#' style='color:#333;'> $pageno </a></li>";
+			for ($i=$pageno + 1; $i <= $last; $i++) { 
+				$pagination .= "<li class='page-item'><a class='page-link' pn='".$i."' href='#'> ".$i." </a></li>";
+				if ($i > $pageno + 4) {
+					break;
+				}
+			}
+			if ($last > $pageno) {
+				$next = $pageno + 1;
+				$pagination .= "<li class='page-item'><a class='page-link' pn='".$next."' href='#' style='color:#333;'> Next </a></li></ul>";
+			}
+		}
+		//LIMIT 0,10
+		//LIMIT 20,10
+		$limit = "LIMIT ".($pageno - 1) * $numberOfRecordsPerPage.",".$numberOfRecordsPerPage;
+
+		return ["pagination"=>$pagination,"limit"=>$limit];
+	}
+
+	private function paginationForSearch($con,$table,$pno,$n,$txt){
+		$query = $con->query("SELECT COUNT(*) r FROM products WHERE product_name LIKE '%".$txt."%'");
 		$row = mysqli_fetch_assoc($query);
 		//$totalRecords = 100000;
 		$pageno = $pno;
