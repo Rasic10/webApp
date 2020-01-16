@@ -43,6 +43,7 @@ if (!isset($_SESSION["userid"])) {
 						<div class="col-sm-6">
 							<iframe src="http://free.timeanddate.com/clock/i72lfk05/n35/szw160/szh160/cf100/hnce1ead6" frameborder="0" width="160" height="160"></iframe>
 						</div>
+						<!--
 						<div class="col-sm-6">
 							<div class="card">
 						      <div class="card-body">
@@ -52,6 +53,7 @@ if (!isset($_SESSION["userid"])) {
 						      </div>
 						    </div>
 						</div>
+						-->
 					</div>
 				</div>
 			</div>

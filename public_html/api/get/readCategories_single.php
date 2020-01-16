@@ -9,8 +9,11 @@
     $database = new Database();
     $con = $database->connect();
 
+    $id;
+    isset($_GET['id']) ? $id = $_GET['id'] : die();
+
     // Blog post query
-    $sql = "SELECT * FROM brands";
+    $sql = "SELECT * FROM categories WHERE cid = ".$id;
     $result = $con->query($sql) or die($con->error);
 
     // Check if any posts
@@ -24,8 +27,9 @@
             extract($row);
 
             $post_item = array(
-                'bid' => $bid,
-                'brand_name' => $brand_name,
+                'cid' => $cid,
+                'parent_cat' => $parent_cat,
+                'category_name' => $category_name,
                 'status' => $status
             );
 

@@ -17,7 +17,7 @@
     if ($result->num_rows > 0) {
         // Post array
         $posts_arr = array();
-        // ????
+        
         $posts_arr['data'] = array();
 
         while ($row = $result->fetch_assoc()) {
